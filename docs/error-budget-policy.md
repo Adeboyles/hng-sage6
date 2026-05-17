@@ -23,7 +23,6 @@ Our error budgets for the current 30-day window:
 | Availability | 99.5% | 216 minutes downtime |
 | Latency | 95% under 500ms | 5% of requests may be slow |
 | Error Rate | 99% success | 1% of requests may fail |
-| Saturation | 95% below 80% CPU | 2,160 minutes above threshold |
 
 ---
 
@@ -212,10 +211,6 @@ Error rate budget:
 - Failed health check responses
 - Timeout responses
 
-Saturation budget:
-- CPU sustained above 80%
-- Memory pressure events
-- Disk I/O saturation
 
 ---
 

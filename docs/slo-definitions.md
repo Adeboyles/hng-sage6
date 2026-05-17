@@ -35,7 +35,7 @@ that returns errors or times out is not available even if the server itself
 is running.
 
 ### SLI Expression (PromQL)
-avg_over_time(probe_success[30d]) * 100
+avg_over_time(probe_success[5m])
 
 ### SLO Target
 99.5% of HTTP probes must return 2xx over a rolling 30-day window
@@ -111,34 +111,7 @@ Error Budget = (1 - 0.99) x total requests
 99% success rate means we tolerate 1 failure per 100 requests. We will
 tighten this to 99.5% as we gain confidence in our reliability.
 
----
 
-## SLO 4 — Saturation
-
-### Definition
-The percentage of time that CPU utilisation stays below 80% over a rolling
-30-day window.
-
-### Why This Matters
-A saturated server degrades all other signals. High CPU causes high latency,
-increased error rates, and eventually complete unavailability.
-
-### SLI Expression (PromQL)
-1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m]))
-
-### SLO Target
-CPU utilisation must stay below 80% for 95% of the time over a rolling
-30-day window
-
-### Error Budget Calculation
-Error Budget = (1 - 0.95) x 43,200 minutes
-             = 2,160 minutes per month allowed above threshold
-
-### Rationale
-80% CPU is the standard warning threshold. The 5% allowance gives us room
-for legitimate bursts like deployments and batch jobs.
-
----
 
 ## Summary Table
 
@@ -147,7 +120,7 @@ for legitimate bursts like deployments and batch jobs.
 | Availability | 99.5% uptime | 216 minutes downtime | 30 days |
 | Latency | 95% under 500ms | 5% of requests may be slow | 30 days |
 | Error Rate | 99% success | 1% of requests may fail | 30 days |
-| Saturation | 95% below 80% CPU | 2,160 minutes above threshold | 30 days |
+
 
 ---
 
